@@ -29,21 +29,20 @@ public class TaxisController {
     public ResponseEntity<Page<TaxisModel>> getAllTaxis(Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(taxisRepository.findAll(pageable));
     }
-    @Operation(summary = "Get a taxis by id")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Found the taxi",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = TaxisModel.class)) }),
-            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
-                    content = @Content),
-            @ApiResponse(responseCode = "404", description = "Taxi not found",
-                    content = @Content) })
-    @GetMapping("/taxis/{id}")
-    public ResponseEntity<TaxisModel> getTaxiById(@PathVariable Integer id) {
-        Optional<TaxisModel> taxi = taxisRepository.findById(id);
-
-        return taxi.map(taxisModel -> ResponseEntity.status(HttpStatus.OK).body(taxisModel)).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
-    }
-
-
+//    @Operation(summary = "Get a taxis by id")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "Found the taxi",
+//                    content = { @Content(mediaType = "application/json",
+//                            schema = @Schema(implementation = TaxisModel.class)) }),
+//            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+//                    content = @Content),
+//            @ApiResponse(responseCode = "404", description = "Taxi not found",
+//                    content = @Content) })
+//    @GetMapping("/taxis/{id}")
+//    public ResponseEntity<TaxisModel> getTaxiById(@PathVariable Integer id) {
+//        Optional<TaxisModel> taxi = taxisRepository.findById(id);
+//
+//        return taxi.map(taxisModel -> ResponseEntity.status(HttpStatus.OK).body(taxisModel)).orElseGet(()
+//                -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+//    }
 }

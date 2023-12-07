@@ -10,6 +10,12 @@ public class TaxisModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String plate;
+
+//    public TaxisModel(Integer id, String plate) {
+//        this.id = id;
+//        this.plate = plate;
+//    }
+
     public Integer getId() {
         return id;
     }
