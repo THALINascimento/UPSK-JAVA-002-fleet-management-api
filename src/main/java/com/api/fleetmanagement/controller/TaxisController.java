@@ -50,7 +50,7 @@ public class TaxisController {
         Optional<TaxisModel> taxi = taxisRepository.findById(id);
 
         if (taxi.isPresent()) {
-            List<TrajectoriesModel> trajectoryInfoList = trajectoriesRepository.findTrajectoriesByTaxiId(Math.toIntExact(Long.valueOf(id)));
+            List<TrajectoriesModel> trajectoryInfoList = trajectoriesRepository.findTrajectoriesByTaxiId(id);
 
             List<TrajectoriesModel> trajectories = trajectoryInfoList.stream().toList();
 
@@ -62,3 +62,20 @@ public class TaxisController {
         }
     }
 }
+
+//@GetMapping("/taxis/{id}")
+//public ResponseEntity<TaxisModel> getTaxiById(@PathVariable Integer id) {
+//        Optional<TaxisModel> taxi = taxisRepository.findById(id);
+//
+//        if (taxi.isPresent()) {
+//        List<TrajectoriesModel> trajectoryInfoList = trajectoriesRepository.findTrajectoriesByTaxiId(id);
+//
+//        TaxisModel taxiModel = taxi.get();
+//        taxiModel.setTrajectories(trajectoryInfoList); // Supondo que TaxisModel tenha um método setTrajectories(List<TrajectoriesModel> trajectories)
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(taxiModel);
+//        } else {
+//        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
+//        }
+

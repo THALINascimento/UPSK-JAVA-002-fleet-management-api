@@ -1,13 +1,22 @@
 package com.api.fleetmanagement.models;
 
-
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
 @Table(name = "taxis")
 public class TaxisModel {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    private String plate;
+
+    @OneToMany(mappedBy = "taxi", fetch = FetchType.LAZY)
+    private List<TrajectoriesModel> trajectories;
+
+
     public Integer getId() {
         return id;
     }
@@ -24,23 +33,11 @@ public class TaxisModel {
         this.plate = plate;
     }
 
-//    public List<TrajectoriesModel> getTrajectories() {
-//        return trajectories;
-//    }
-//
-//    public void setTrajectories(List<TrajectoriesModel> trajectories) {
-//        this.trajectories = trajectories;
-//    }
+    public List<TrajectoriesModel> getTrajectories() {
+        return trajectories;
+    }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    private String plate;
-
-//    @OneToMany(mappedBy = "taxi", cascade = CascadeType.ALL)
-//    private List<TrajectoriesModel> trajectories;
-
+    public void setTrajectories(List<TrajectoriesModel> trajectories) {
+        this.trajectories = trajectories;
+    }
 }
-
-

@@ -1,5 +1,6 @@
 package com.api.fleetmanagement.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -12,6 +13,7 @@ public class TrajectoriesModel {
 
     @ManyToOne
     @JoinColumn(name = "taxi_id")
+    @JsonIgnore
     private TaxisModel taxi;
 
     @Column(name = "date", columnDefinition = "TIMESTAMP")
