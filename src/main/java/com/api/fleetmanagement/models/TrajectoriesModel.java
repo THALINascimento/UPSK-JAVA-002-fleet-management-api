@@ -13,7 +13,6 @@ public class TrajectoriesModel {
 
     @ManyToOne
     @JoinColumn(name = "taxi_id")
-    @JsonIgnore
     private TaxisModel taxi;
 
     @Column(name = "date", columnDefinition = "TIMESTAMP")

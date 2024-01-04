@@ -1,5 +1,6 @@
 package com.api.fleetmanagement.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -12,9 +13,9 @@ public class TaxisModel {
     private Integer id;
 
     private String plate;
-
-    @OneToMany(mappedBy = "taxi", fetch = FetchType.LAZY)
-    private List<TrajectoriesModel> trajectories;
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "taxi", fetch = FetchType.LAZY)
+//    private List<TrajectoriesModel> trajectories;
 
 
     public Integer getId() {
@@ -33,11 +34,11 @@ public class TaxisModel {
         this.plate = plate;
     }
 
-    public List<TrajectoriesModel> getTrajectories() {
-        return trajectories;
-    }
-
-    public void setTrajectories(List<TrajectoriesModel> trajectories) {
-        this.trajectories = trajectories;
-    }
+//    public List<TrajectoriesModel> getTrajectories() {
+//        return trajectories;
+//    }
+//
+//    public void setTrajectories(List<TrajectoriesModel> trajectories) {
+//        this.trajectories = trajectories;
+//    }
 }

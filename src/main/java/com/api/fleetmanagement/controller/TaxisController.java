@@ -36,46 +36,32 @@ public class TaxisController {
         return ResponseEntity.status(HttpStatus.OK).body(taxisRepository.findAll(pageable));
     }
 
-//    @Operation(summary = "Get a taxis by id")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "Found the taxi",
-//                    content = {@Content(mediaType = "application/json",
-//                            schema = @Schema(implementation = TaxisModel.class))}),
-//            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
-//                    content = @Content),
-//            @ApiResponse(responseCode = "404", description = "Taxi not found",
-//                    content = @Content)})
+    @Operation(summary = "Get a taxis by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the taxi",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = TaxisModel.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Taxi not found",
+                    content = @Content)})
     @GetMapping("/taxis/{id}")
-    public ResponseEntity<TaxisModel> getTaxiById(@PathVariable Integer id) {
+    public ResponseEntity<List<TrajectoriesModel>> getTaxiById(@PathVariable Integer id) {
         Optional<TaxisModel> taxi = taxisRepository.findById(id);
 
         if (taxi.isPresent()) {
+            TaxisModel taxiModel = taxi.get();
             List<TrajectoriesModel> trajectoryInfoList = trajectoriesRepository.findTrajectoriesByTaxiId(id);
 
             List<TrajectoriesModel> trajectories = trajectoryInfoList.stream().toList();
 
-            TaxisModel taxiModel = taxi.get();
 
-            return ResponseEntity.status(HttpStatus.OK).body(taxiModel);
+            return ResponseEntity.status(HttpStatus.OK).body(trajectories);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 }
 
-//@GetMapping("/taxis/{id}")
-//public ResponseEntity<TaxisModel> getTaxiById(@PathVariable Integer id) {
-//        Optional<TaxisModel> taxi = taxisRepository.findById(id);
-//
-//        if (taxi.isPresent()) {
-//        List<TrajectoriesModel> trajectoryInfoList = trajectoriesRepository.findTrajectoriesByTaxiId(id);
-//
-//        TaxisModel taxiModel = taxi.get();
-//        taxiModel.setTrajectories(trajectoryInfoList); // Supondo que TaxisModel tenha um método setTrajectories(List<TrajectoriesModel> trajectories)
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(taxiModel);
-//        } else {
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-//        }
-//        }
+
 
