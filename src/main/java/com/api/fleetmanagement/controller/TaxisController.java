@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +31,6 @@ public class TaxisController {
     TrajectoriesRepository trajectoriesRepository;
 
     @Operation(summary = "Get all taxis")
-
     @GetMapping("/taxis")
     public ResponseEntity<Page<TaxisModel>> getAllTaxis(Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(taxisRepository.findAll(pageable));
@@ -46,22 +46,21 @@ public class TaxisController {
             @ApiResponse(responseCode = "404", description = "Taxi not found",
                     content = @Content)})
     @GetMapping("/taxis/{id}")
-    public ResponseEntity<List<TrajectoriesModel>> getTaxiById(@PathVariable Integer id) {
-        Optional<TaxisModel> taxi = taxisRepository.findById(id);
+    public ResponseEntity<List<TrajectoriesModel>> getTaxiById(@PathVariable Integer id, Pageable pageable) {
+        Optional<TaxisModel> taxiOptional = taxisRepository.findById(id);
 
-        if (taxi.isPresent()) {
-            TaxisModel taxiModel = taxi.get();
-            List<TrajectoriesModel> trajectoryInfoList = trajectoriesRepository.findTrajectoriesByTaxiId(id);
+        if (taxiOptional.isPresent()) {
+            TaxisModel taxiModel = taxiOptional.get();
+            Page<TrajectoriesModel> trajectoryInfoList = trajectoriesRepository.findTrajectoriesByTaxiId(id, pageable);
 
-            List<TrajectoriesModel> trajectories = trajectoryInfoList.stream().toList();
-
-
-            return ResponseEntity.status(HttpStatus.OK).body(trajectories);
+            if (trajectoryInfoList != null) {
+                List<TrajectoriesModel> trajectories = trajectoryInfoList.getContent();
+                return ResponseEntity.status(HttpStatus.OK).body(trajectories);
+            } else {
+                return ResponseEntity.status(HttpStatus.OK).body(Collections.emptyList());
+            }
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 }
-
-
-

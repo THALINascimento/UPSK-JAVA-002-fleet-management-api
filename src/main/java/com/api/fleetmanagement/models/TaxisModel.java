@@ -13,10 +13,6 @@ public class TaxisModel {
     private Integer id;
 
     private String plate;
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "taxi", fetch = FetchType.LAZY)
-//    private List<TrajectoriesModel> trajectories;
-
 
     public Integer getId() {
         return id;
@@ -34,11 +30,4 @@ public class TaxisModel {
         this.plate = plate;
     }
 
-//    public List<TrajectoriesModel> getTrajectories() {
-//        return trajectories;
-//    }
-//
-//    public void setTrajectories(List<TrajectoriesModel> trajectories) {
-//        this.trajectories = trajectories;
-//    }
 }
