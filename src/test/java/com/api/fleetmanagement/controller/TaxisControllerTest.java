@@ -36,6 +36,7 @@ class TaxisControllerTest {
     private TaxisRepository taxisRepository;
     @MockBean
     private TrajectoriesRepository trajectoriesRepository;
+
     @Test
     void getAllTaxis() throws Exception {
         TaxisModel taxis = new TaxisModel();
@@ -89,4 +90,28 @@ class TaxisControllerTest {
                 .andDo(print())
                 .andExpect(status().isNotFound());
     }
-}
+
+    @Test
+    void getTaxiLastLocations() throws Exception {
+        TaxisModel taxi = new TaxisModel();
+        taxi.setId(6598);
+        taxi.setPlate("FHLB-7962");
+
+        TrajectoriesModel trajectory = new TrajectoriesModel();
+        trajectory.setId(11732);
+        trajectory.setTaxi(taxi);
+        trajectory.setDate(LocalDateTime.parse("2008-02-08T17:37:43"));
+        trajectory.setLatitude(116.32706);
+        trajectory.setLongitude(39.84801);
+
+        Page<TrajectoriesModel> page = new PageImpl<>(List.of(trajectory));
+
+        Mockito.when(trajectoriesRepository.findLastLocations(ArgumentMatchers.any(Pageable.class))).thenReturn(page);
+
+        this.mockMvc.perform(get("/taxis/last-locations"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json("{'content':[{'id':11732, 'taxi':{'id':6598,'plate':'FHLB-7962'}, 'date':'2008-02-08T17:37:43','latitude': 116.32706, 'longitude': 39.84801}]," + "'pageable':'INSTANCE','last':true,'totalPages':1,'totalElements':1,'first':true,'size':1,'number':0,'sort':{'sorted':false,'empty':true,'unsorted':true},'numberOfElements':1,'empty':false}"));
+    }
+
+    }

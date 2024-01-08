@@ -63,4 +63,20 @@ public class TaxisController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+        @Operation(summary = "Get a taxis last trajectory")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the taxi",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = TaxisModel.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Taxi not found",
+                    content = @Content)})
+
+    @GetMapping("/taxis/last-locations")
+    public ResponseEntity<Page<TrajectoriesModel>> getTaxiLastLocations(Pageable pageable) {
+        Page<TrajectoriesModel> trajectoryLastLocations = trajectoriesRepository.findLastLocations(pageable);
+        return ResponseEntity.ok(trajectoryLastLocations);
+    }
 }
